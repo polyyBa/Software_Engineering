@@ -163,14 +163,33 @@ result3 = remove_first_occurrence(tup3, 9)
 ### Ребята поспорили кто из них одним нажатием на numpad наберет больше повторяющихся цифр, но не понимают, как узнать победителя. Вам им нужно в этом помочь. Дана строка в виде случайной последовательности чисел от 0 до 9 (длина строки минимум 15 символов). Требуется создать словарь, который в качестве ключей будет принимать данные числа (т. е. ключи будут типом int), а в качестве значений – количество этих чисел в имеющейся последовательности. Для построения словаря создайте функцию, принимающую строку из цифр. Функция должна возвратить словарь из 3-х самых часто встречаемых чисел, также эти значения нужно вывести в порядке возрастания ключа.
 
 ```python
-input_string = 'HelloWorld'
-result = tuple(input_string)
+def count_repeated_numbers(s):
+    count_dict = {}
+    for digit in s:
+        if digit.isdigit():
+            digit = int(digit)
+            if digit in count_dict:
+                count_dict[digit] += 1
+            else:
+                count_dict[digit] = 1
+
+    sorted_counts = sorted(count_dict.items(), key=lambda x: x[1], reverse=True)
+    result = {}
+    for i in range(3):
+        if i < len(sorted_counts):
+            result[sorted_counts[i][0]] = sorted_counts[i][1]
+
+    return result
+
+s = "12345678900987654321"
+result = count_repeated_numbers(s)
 print(result)
-print(list(result))
 ```
 ### Результат.
+![image](https://github.com/polyyBa/Software_Engineering/assets/144797777/57e1fb86-f84f-4ba7-8414-e6c9c10e80c5)
 
 ## Выводы
+- Эта функция сначала создает словарь `count_dict`, в котором ключами являются числа, а значениями - количество их повторений в строке s. Затем она сортирует этот словарь по убыванию значений и выбирает три самых часто встречаемых числа. Результат выводится на экран.
 
 ## Самостоятельная работа №4
 ### Ваш хороший друг владеет офисом со входом по электронным картам, ему нужно чтобы вы написали программу, которая показывала в каком порядке сотрудники входили и выходили из офиса. Определение сотрудника происходит по id. Напишите функцию, которая на вход принимает кортеж и случайный элемент (id), его можно придумать самостоятельно. Требуется вернуть новый кортеж, начинающийся с первого появления элемента в нем и заканчивающийся вторым его появлением включительно.
@@ -186,25 +205,65 @@ print(list(result))
 (8, 5, 1, 2, 9)
 
 ```python
-input_string = 'HelloWorld'
-result = tuple(input_string)
-print(result)
-print(list(result))
+def find_employee_movement(records, employee_id):
+    if employee_id not in records:
+        return ()
+
+    start_index = records.index(employee_id)
+    end_index = len(records) - 1 - records[::-1].index(employee_id)
+
+    return records[start_index:end_index + 1]
+
+
+records1 = (1, 2, 3)
+records2 = (1, 8, 3, 4, 8, 8, 9, 2)
+records3 = (1, 2, 8, 8, 5, 1, 2, 9)
+
+print(find_employee_movement(records1, 8))
+print(find_employee_movement(records2, 8))
+print(find_employee_movement(records3, 8))
 ```
 ### Результат.
+![image](https://github.com/polyyBa/Software_Engineering/assets/144797777/499300b2-8957-43fa-adc5-bc84dd3a8566)
 
 ## Выводы
+Эта функция принимает кортеж записей и id сотрудника, затем определяет индексы его первого и последнего появления в кортеже и возвращает новый кортеж, начинающийся с первого появления элемента и заканчивающийся вторым его появлением включительно. Если элемента нет вовсе – возвращает пустой кортеж.
 
 ## Самостоятельная работа №5
 ### Самостоятельно придумайте и решите задачу, в которой будут обязательно использоваться кортеж или список. Проведите минимум три теста для проверки работоспособности вашей задачи.
 
 ```python
-input_string = 'HelloWorld'
-result = tuple(input_string)
-print(result)
-print(list(result))
+def count_vowels_consonants(word):
+    vowels = ['a', 'e', 'i', 'o', 'u']
+    vowels_count = 0
+    consonants_count = 0
+
+    for letter in word:
+        if letter.lower() in vowels:
+            vowels_count += 1
+        elif letter.isalpha():
+            consonants_count += 1
+
+    return (vowels_count, consonants_count)
+
+
+word1 = "hello"
+word2 = "world"
+word3 = "gffgfdfhjskazrfhncdrhyujc"
+
+print(count_vowels_consonants(word1))
+print(count_vowels_consonants(word2))
+print(count_vowels_consonants(word3))
 ```
 ### Результат.
+![image](https://github.com/polyyBa/Software_Engineering/assets/144797777/0a570f92-a742-4f5b-8e87-367eafad0f88)
 
 ## Выводы
 
+- Функция `count_vowels_consonants` определяет количество гласных и согласных букв в слове, используя список гласных букв.
+
+- Внутри функции используется цикл `for` для перебора всех букв в слове.
+
+- Для подсчета гласных и согласных букв используются переменные `vowels_count` и `consonants_count`, которые увеличиваются на 1 при обнаружении соответствующей буквы.
+
+- Возвращается кортеж с количеством гласных и согласных букв.
